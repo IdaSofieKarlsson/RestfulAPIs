@@ -1,16 +1,17 @@
-# Swedish Pastries Bakery Management System
-
+# The Swedish Pastries from Furet's management system
 
 ## Description
-This project manages inventory for a bakery specializing in Swedish pastries.
+This project manages inventory for a local Swedish bakery.
 
+## To start server: 
+npm run dev
 
 ## Zod Schema Explanation
-- `PastrySchema`: Validates the structure of pastry objects, ensuring each has an 'id', 'name', and 'price'.
-  - Example:
-  ```typescript
-  const PastrySchema = z.object({
-    id: z.string(),
-    name: z.string(),
-    price: z.number()
-  });
+- pastrieSchema validates the structure of the pastrie objects
+```typescript
+const pastrieSchema = z.object({
+    id: z.number(),
+    name: z.string().min(1).max(100),
+    description: z.string().min(1).max(250),
+    priceSEK: z.number().min(5).max(250).default(50),
+});

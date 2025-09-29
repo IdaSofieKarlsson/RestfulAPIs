@@ -16,33 +16,49 @@ app.listen(PORT, () => {
 let swedishPastries = [
     {
         id: 1,
-        name: "abba",
-        description: "Anna Svensson",
-        priceSEK: 48,
+        name: "Hallongrottor",
+        description: "Raspberry jam filled cookies",
+        priceSEK: 59,
     },
     {
         id: 2,
-        name: "babba",
-        description: "Bea Johnsson",
-        priceSEK: 48,
+        name: "Chokladbollar",
+        description: "Traditionally made of oats, butter, sugar, cacao, coffee, vanilla, and coated in coconut or pearl sugar",
+        priceSEK: 49,
     },
     {
         id: 3,
-        name: "cacka",
-        description: "Cisse Olsson",
-        priceSEK: 48,
+        name: "Kladdkaka with whipped cream",
+        description: "Somewhere between a dense chocolate cake, a brownie, and sometimes even a chocolate fondant depending on the gooey factor",
+        priceSEK: 75,
+    },
+    {
+        id: 4,
+        name: "Kanelbulle",
+        description: "Kanelbulle has a simple pearl sugar topping and the bun has a very distinct cinnamon and cardamom spice taste",
+        priceSEK: 65,
     },
 ];
 
 const pastrieSchema = z.object({
     id: z.number(),
     name: z.string().min(1).max(100),
-    description: z.string().min(1).max(250).optional(),
+    description: z.string().min(1).max(250),
     priceSEK: z.number().min(5).max(250).default(50),
 });
 
+const validatedPastries = pastrieSchema.safeParse(swedishPastries);
+
+if (!validatedPastries.success) {
+    console.error(validatedPastries.error);
+} else {
+    console.log(validatedPastries.data);
+};
+
 app.get("/swedishpastries", (req, res) => {
-    res.json(swedishPastries);
+    //res.json(swedishPastries);
+    res.json(pastrieSchema.safeParse(swedishPastries));
+
 });
 
 app.post("/swedishpastries", (req, res) => {
@@ -52,6 +68,7 @@ app.post("/swedishpastries", (req, res) => {
         description: req.body.description,
         priceSEK: req.body.priceSEK,
     };
+    const validatedNewPastrie = pastrieSchema.safeParse(newPastrie);
     swedishPastries.push(newPastrie);
     res.json({message: "Pastrie added successfully", pastrie: newPastrie});
 });

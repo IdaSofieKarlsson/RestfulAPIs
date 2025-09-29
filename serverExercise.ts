@@ -1,3 +1,4 @@
+//this file is not relevant for the exercise, but I need it because of the zod notes 
 import {email, z} from "zod";
 import express from "express";
 import { error } from "console";
