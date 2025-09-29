@@ -23,18 +23,6 @@ const userSchema = z.object({
     email: z.email(),
 });
 
-const restaurantSchema = z.object({
-    name: z.string(),
-    menu: z.object({
-        appetizers: z.array(z.string()),
-        mains: z.array(z.string().min(1, "At least one dish is required")),
-    }),
-    openingHours: z.record(z.string(), z.array(z.string())),    //{mon: ["kl9", "kl10"]}
-});
-
-const emailSchema = z.object({
-    email: z.email().toLowerCase(),   //want email to be all lowercase
-});
 
 const randomUserResponsSchema = z.object({
     results: z.array(

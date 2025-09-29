@@ -1,5 +1,6 @@
 import express, { json } from "express";
-import type { describe } from "node:test";
+import { describe } from "node:test";
+import { z } from "zod";
 
 //initializes the app
 const app = express();
@@ -32,6 +33,13 @@ let swedishPastries = [
         priceSEK: 48,
     },
 ];
+
+const pastrieSchema = z.object({
+    id: z.number(),
+    name: z.string().min(1).max(100),
+    description: z.string().min(1).max(250).optional(),
+    priceSEK: z.number().min(5).max(250).default(50),
+});
 
 app.get("/swedishpastries", (req, res) => {
     res.json(swedishPastries);
